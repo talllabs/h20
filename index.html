@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="H20 Media">
+  <title>H20 Media</title>
+
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: #031216;
+    }
+
+    body {
+      color: #ffffff;
+    }
+
+    .page {
+      position: relative;
+      display: grid;
+      min-height: 100dvh;
+      place-items: center;
+      isolation: isolate;
+    }
+
+    .video-wrap {
+      position: fixed;
+      inset: -90px;
+      z-index: -3;
+      overflow: hidden;
+      background: #031216;
+      pointer-events: none;
+    }
+
+    .video-wrap iframe {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: max(100vw, 177.78vh);
+      height: max(56.25vw, 100vh);
+      min-width: calc(100vw + 180px);
+      min-height: calc(100vh + 180px);
+      border: 0;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .shade {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background: rgba(1, 11, 14, 0.28);
+    }
+
+    .contact-button,
+    .submit-button {
+      appearance: none;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 999px;
+      background: rgba(2, 17, 21, 0.3);
+      color: #ffffff;
+      cursor: pointer;
+      font: inherit;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      padding: 1rem 1.5rem;
+      text-transform: uppercase;
+      backdrop-filter: blur(8px);
+      transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+    }
+
+    .contact-button:hover,
+    .contact-button:focus-visible,
+    .submit-button:hover,
+    .submit-button:focus-visible {
+      background: #ffffff;
+      color: #062129;
+      outline: none;
+      transform: translateY(-2px);
+    }
+
+    dialog {
+      width: min(92vw, 520px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 18px;
+      background: rgba(3, 18, 22, 0.96);
+      color: #ffffff;
+      padding: 0;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(18px);
+    }
+
+    dialog::backdrop {
+      background: rgba(0, 7, 9, 0.68);
+      backdrop-filter: blur(4px);
+    }
+
+    .form-panel {
+      padding: 2rem;
+    }
+
+    .form-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.35rem;
+      letter-spacing: 0.04em;
+    }
+
+    .close-button {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+      cursor: pointer;
+      font-size: 1.4rem;
+      line-height: 1;
+      place-items: center;
+    }
+
+    .field {
+      display: grid;
+      gap: 0.45rem;
+      margin-bottom: 1rem;
+    }
+
+    label {
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.07);
+      color: #ffffff;
+      font: inherit;
+      padding: 0.9rem 1rem;
+      outline: none;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: #ffffff;
+    }
+
+    textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .submit-button {
+      width: 100%;
+      margin-top: 0.35rem;
+    }
+
+    .form-status {
+      min-height: 1.2rem;
+      margin: 0.9rem 0 0;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 0.86rem;
+      text-align: center;
+    }
+
+    .hidden-field {
+      position: absolute;
+      left: -9999px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .contact-button,
+      .submit-button {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <div class="video-wrap" aria-hidden="true">
+      <iframe
+        src="https://www.youtube-nocookie.com/embed/8U_nLVItqdw?autoplay=1&mute=1&controls=0&loop=1&playlist=8U_nLVItqdw&playsinline=1&rel=0&disablekb=1&fs=0&iv_load_policy=3"
+        title="Ocean background video"
+        allow="autoplay; encrypted-media"
+        tabindex="-1">
+      </iframe>
+    </div>
+
+    <div class="shade" aria-hidden="true"></div>
+
+    <button class="contact-button" id="openContact" type="button">
+      Contact Us
+    </button>
+  </main>
+
+  <dialog id="contactDialog" aria-labelledby="contactTitle">
+    <div class="form-panel">
+      <div class="form-header">
+        <h1 id="contactTitle">Contact Us</h1>
+        <button class="close-button" id="closeContact" type="button" aria-label="Close contact form">&times;</button>
+      </div>
+
+      <form id="contactForm">
+        <input type="hidden" name="_subject" value="New message from h20.media">
+        <input type="hidden" name="_template" value="table">
+        <input type="text" name="_honey" class="hidden-field" tabindex="-1" autocomplete="off">
+
+        <div class="field">
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" autocomplete="name" required>
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" required>
+        </div>
+
+        <div class="field">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" required></textarea>
+        </div>
+
+        <button class="submit-button" id="submitButton" type="submit">Send Message</button>
+        <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </dialog>
+
+  <script>
+    const dialog = document.getElementById('contactDialog');
+    const openButton = document.getElementById('openContact');
+    const closeButton = document.getElementById('closeContact');
+    const form = document.getElementById('contactForm');
+    const submitButton = document.getElementById('submitButton');
+    const status = document.getElementById('formStatus');
+
+    openButton.addEventListener('click', () => dialog.showModal());
+    closeButton.addEventListener('click', () => dialog.close());
+
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      submitButton.disabled = true;
+      submitButton.textContent = 'Sending...';
+      status.textContent = '';
+
+      try {
+        const response = await fetch('https://formsubmit.co/ajax/ae@h20.media', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json'
+          },
+          body: new FormData(form)
+        });
+
+        if (!response.ok) throw new Error('Submission failed');
+
+        form.reset();
+        status.textContent = 'Thank you. Your message has been sent.';
+        submitButton.textContent = 'Sent';
+      } catch (error) {
+        status.textContent = 'Your message could not be sent. Please try again.';
+        submitButton.disabled = false;
+        submitButton.textContent = 'Send Message';
+      }
+    });
+  </script>
+</body>
+</html>
