@@ -40,6 +40,25 @@
       isolation: isolate;
     }
 
+    /* HERO IMAGE */
+    .hero-image {
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      pointer-events: none;
+    }
+
+    .shade {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background: rgba(1, 11, 14, 0.28);
+    }
+
     .brand-title {
       margin: 0;
       color: #ffffff;
@@ -49,35 +68,6 @@
       line-height: 0.9;
       text-align: center;
       text-shadow: 0 4px 32px rgba(0, 0, 0, 0.28);
-    }
-
-    .video-wrap {
-      position: fixed;
-      inset: -90px;
-      z-index: -3;
-      overflow: hidden;
-      background: #031216;
-      pointer-events: none;
-    }
-
-    .video-wrap iframe {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: max(100vw, 177.78vh);
-      height: max(56.25vw, 100vh);
-      min-width: calc(100vw + 180px);
-      min-height: calc(100vh + 180px);
-      border: 0;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-    }
-
-    .shade {
-      position: fixed;
-      inset: 0;
-      z-index: -2;
-      background: rgba(1, 11, 14, 0.28);
     }
 
     .contact-button,
@@ -214,6 +204,25 @@
       left: -9999px;
     }
 
+    @media (max-width: 768px) {
+      .hero-image {
+        object-position: center center;
+      }
+
+      .page {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      .brand-title {
+        font-size: clamp(3rem, 16vw, 6rem);
+      }
+
+      .contact-button {
+        bottom: 7vh;
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .contact-button,
       .submit-button {
@@ -225,14 +234,13 @@
 
 <body>
   <main class="page">
-    <div class="video-wrap" aria-hidden="true">
-      <iframe
-        src="https://www.youtube-nocookie.com/embed/8U_nLVItqdw?autoplay=1&mute=1&controls=0&loop=1&playlist=8U_nLVItqdw&playsinline=1&rel=0&disablekb=1&fs=0&iv_load_policy=3"
-        title="Ocean background video"
-        allow="autoplay; encrypted-media"
-        tabindex="-1">
-      </iframe>
-    </div>
+
+    <img
+      class="hero-image"
+      src="Turquoise River Through Snowy Peaks.png"
+      alt=""
+      aria-hidden="true"
+    >
 
     <div class="shade" aria-hidden="true"></div>
 
@@ -247,31 +255,70 @@
     <div class="form-panel">
       <div class="form-header">
         <h2 id="contactTitle">Contact Us</h2>
-        <button class="close-button" id="closeContact" type="button" aria-label="Close contact form">&times;</button>
+        <button
+          class="close-button"
+          id="closeContact"
+          type="button"
+          aria-label="Close contact form"
+        >&times;</button>
       </div>
 
       <form id="contactForm">
         <input type="hidden" name="_subject" value="New message from h20.media">
         <input type="hidden" name="_template" value="table">
-        <input type="text" name="_honey" class="hidden-field" tabindex="-1" autocomplete="off">
+        <input
+          type="text"
+          name="_honey"
+          class="hidden-field"
+          tabindex="-1"
+          autocomplete="off"
+        >
 
         <div class="field">
           <label for="name">Name</label>
-          <input id="name" name="name" type="text" autocomplete="name" required>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            autocomplete="name"
+            required
+          >
         </div>
 
         <div class="field">
           <label for="email">Email</label>
-          <input id="email" name="email" type="email" autocomplete="email" required>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            required
+          >
         </div>
 
         <div class="field">
           <label for="message">Message</label>
-          <textarea id="message" name="message" required></textarea>
+          <textarea
+            id="message"
+            name="message"
+            required
+          ></textarea>
         </div>
 
-        <button class="submit-button" id="submitButton" type="submit">Send Message</button>
-        <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+        <button
+          class="submit-button"
+          id="submitButton"
+          type="submit"
+        >
+          Send Message
+        </button>
+
+        <p
+          class="form-status"
+          id="formStatus"
+          role="status"
+          aria-live="polite"
+        ></p>
       </form>
     </div>
   </dialog>
@@ -284,35 +331,51 @@
     const submitButton = document.getElementById('submitButton');
     const status = document.getElementById('formStatus');
 
-    openButton.addEventListener('click', () => dialog.showModal());
-    closeButton.addEventListener('click', () => dialog.close());
+    openButton.addEventListener('click', () => {
+      dialog.showModal();
+    });
+
+    closeButton.addEventListener('click', () => {
+      dialog.close();
+    });
 
     dialog.addEventListener('click', (event) => {
-      if (event.target === dialog) dialog.close();
+      if (event.target === dialog) {
+        dialog.close();
+      }
     });
 
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
+
       submitButton.disabled = true;
       submitButton.textContent = 'Sending...';
       status.textContent = '';
 
       try {
-        const response = await fetch('https://formsubmit.co/ajax/ae@h20.media', {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json'
-          },
-          body: new FormData(form)
-        });
+        const response = await fetch(
+          'https://formsubmit.co/ajax/ae@h20.media',
+          {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json'
+            },
+            body: new FormData(form)
+          }
+        );
 
-        if (!response.ok) throw new Error('Submission failed');
+        if (!response.ok) {
+          throw new Error('Submission failed');
+        }
 
         form.reset();
         status.textContent = 'Thank you. Your message has been sent.';
         submitButton.textContent = 'Sent';
+
       } catch (error) {
-        status.textContent = 'Your message could not be sent. Please try again.';
+        status.textContent =
+          'Your message could not be sent. Please try again.';
+
         submitButton.disabled = false;
         submitButton.textContent = 'Send Message';
       }
