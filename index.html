@@ -58,12 +58,32 @@
     .hero-image {
       position: fixed;
       inset: 0;
-      z-index: -3;
+      z-index: -4;
       width: 100%;
       height: 100%;
       object-fit: cover;
       object-position: center center;
       pointer-events: none;
+    }
+
+    /* HERO VIDEO (Vimeo background embed) */
+    .hero-video {
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .hero-video iframe {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      /* Always cover the screen, like object-fit: cover (assumes a 16:9 video) */
+      width: max(100vw, 177.78vh);
+      height: max(100vh, 56.25vw);
+      transform: translate(-50%, -50%);
+      border: 0;
     }
 
     /* DARK OVERLAY */
@@ -315,12 +335,23 @@
   <main class="page">
 
     <!-- HERO BACKGROUND -->
+    <!-- The photo stays underneath as a fallback while the video loads -->
     <img
       class="hero-image"
       src="Turquoise River Through Snowy Peaks.png"
       alt=""
       aria-hidden="true"
     >
+
+    <!-- HERO VIDEO: background=1 means autoplay, muted, looping, no controls -->
+    <div class="hero-video" aria-hidden="true">
+      <iframe
+        src="https://player.vimeo.com/video/1242922338?background=1&autoplay=1&loop=1&muted=1&autopause=0&dnt=1"
+        allow="autoplay; fullscreen; picture-in-picture"
+        title="H2O Media background video"
+        tabindex="-1"
+      ></iframe>
+    </div>
 
     <div
       class="shade"
