@@ -54,15 +54,12 @@
       isolation: isolate;
     }
 
-    /* HERO IMAGE */
-    .hero-image {
+    /* HERO FALLBACK: plain slate blue shown while the video loads */
+    .hero-fallback {
       position: fixed;
       inset: 0;
       z-index: -4;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center center;
+      background: #4a6274; /* slate blue - change this hex code to tweak the shade */
       pointer-events: none;
     }
 
@@ -290,10 +287,6 @@
     }
 
     @media (max-width: 768px) {
-      .hero-image {
-        object-position: center center;
-      }
-
       .page {
         padding-left: 1rem;
         padding-right: 1rem;
@@ -335,13 +328,8 @@
   <main class="page">
 
     <!-- HERO BACKGROUND -->
-    <!-- The photo stays underneath as a fallback while the video loads -->
-    <img
-      class="hero-image"
-      src="Turquoise River Through Snowy Peaks.png"
-      alt=""
-      aria-hidden="true"
-    >
+    <!-- Slate blue colour sits underneath as a fallback while the video loads -->
+    <div class="hero-fallback" aria-hidden="true"></div>
 
     <!-- HERO VIDEO: background=1 means autoplay, muted, looping, no controls -->
     <div class="hero-video" aria-hidden="true">
